@@ -32,11 +32,13 @@ def get_token_auth_header():
     parts = authorization.split()
     if parts[0].lower() != 'bearer':
         raise AuthError({'code': 'invalid_header',
-                         'description': "Authorization header must start with 'Bearer'"},
+                         'description': ("Authorization header "
+                                         "must start with 'Bearer'")},
                         401)
     elif len(parts) != 2:
         raise AuthError({'code': 'invalid_header',
-                         'description': 'Authorization header must be bearer token'},
+                         'description': ('Authorization header'
+                                         ' must be bearer token')},
                         401)
     token = parts[1]
     return token
@@ -45,12 +47,14 @@ def get_token_auth_header():
 def check_permissions(permission, payload):
     if 'permissions' not in payload:
         raise AuthError({'code': 'permissions_missing',
-                         'description': '"permissions" are expected in token payload'},
+                         'description': ('"permissions" '
+                                         'are expected in token payload')},
                         401)
     if permission not in payload['permissions']:
         raise AuthError({'code': 'not_authorized',
-                         'description': 'You do not have permission to perform this action'},
-                        401)#### shouldn't this be 403? #######################################################
+                         'description': ('You do not have permission '
+                                         'to perform this action')},
+                        401)  # shouldn't this be 403?
     return True
 
 
@@ -91,7 +95,8 @@ def verify_decode_jwt(token):
         except jwt.JWTClaimsError:
             raise AuthError({
                 'code': 'invalid_claims',
-                'description': 'Incorrect claims. Please, check the audience and issuer.'
+                'description': ('Incorrect claims. '
+                                'Please, check the audience and issuer.')
             }, 401)
         except Exception:
             raise AuthError({
@@ -99,7 +104,8 @@ def verify_decode_jwt(token):
                 'description': 'Unable to parse authentication token.'
             }, 400)
     raise AuthError({'code': 'invalid_header',
-                     'description': 'Unable to find the appropriate key.'}, 400)
+                     'description': 'Unable to find the appropriate key.'
+                     }, 400)
 
 
 def requires_auth(permission=''):
