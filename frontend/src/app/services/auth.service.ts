@@ -72,6 +72,7 @@ export class AuthService {
     this.token = '';
     this.payload = null;
     this.set_jwt();
+    location.href='https://fsndtest.eu.auth0.com/v2/logout?returnTo=http%3A%2F%2Flocalhost:8100/tabs/user-page'   
   }
 
   can(permission: string) {
